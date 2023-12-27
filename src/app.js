@@ -11,7 +11,7 @@ import * as service from "./servicies/chat.services.js";
 import userRouter from "./routes/user.router.js";
 import viewsRouter from './routes/views.router.js'
 import "./daos/mongodb/conexion.js"
-//import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import session from 'express-session';
 //import sessionFileStore from "session-file-store";
 import MongoStore from "connect-mongo";
@@ -88,6 +88,7 @@ const mongoStoreOptions = {
 }
 app.use(express.urlencoded({extended:true}))
 //app.use(cookieParser);
+app.use(cookieParser());
 
 
 
