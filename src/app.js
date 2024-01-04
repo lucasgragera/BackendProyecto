@@ -81,7 +81,7 @@ const mongoStoreOptions = {
   }),
   secret: '1234',
   resave: false,
-  saveUnitialized: false,
+  //saveUnitialized: false,
   cookie: {
     maxAge: 120000 //milisegundos, mismo o mayor que la session
   }

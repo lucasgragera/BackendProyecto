@@ -60,11 +60,11 @@ export const getQuery = async (req, res, next) => {
      if (sort != "asc" || sort != "desc") {
        sort = "desc";
      }
-     const products = await ProductModel.find()
-       .sort({ price: sort })
-       //.page(page)
-       .limit(limit)
-       .lean();
+     const options = {
+      page,
+      limit
+  }
+  const products = await ProductModel.paginate({},options)
      res.status(200).json(products);
    } catch (error) {
      res.json({
@@ -93,6 +93,7 @@ export const create = async (req, res, next) => {
   try {
     const { title, description, code, price, stock, thumbnails } = req.body;
     const newProd = { title, description, code, price, stock, thumbnails }
+    console.log(newProd);
     const response = await service.create(newProd);
     if (!response) res.status(404).json({ msg: "Error create product!" });
     res.status(200).json(newProd);
