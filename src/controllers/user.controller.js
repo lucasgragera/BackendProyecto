@@ -46,6 +46,38 @@ export const githubResponse = async (req, res, next) => {
   }
 };
 
+export const loginPassport = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userDao.loginUser({ email, password });
+    if (!user) {
+      res.json({ msg: "invalid credentials" });
+    }
+    const access_token = generateToken(user);
+    res
+      .header("Authorization", access_token)
+      .json({ msg: "Login OK", access_token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const registerPassport = async (req, res, next) => {
+  try {
+    const { first_name, last_name, email, age, password } = req.body;
+    const exist = await userDao.getByEmail(email);
+    if (exist) return res.status(400).json({ msg: "User already exists" });
+    const user = { first_name, last_name, email, age, password };
+    const newUser = await userDao.createUser(user);
+    res.json({
+      msg: "Register OK",
+      newUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default class UserController {
   async register(req, res, next) {
     console.log(req.body);
@@ -59,7 +91,6 @@ export default class UserController {
   }
   async login(req, res, next) {
     try {
-      const { email, password } = req.body;
       const user = await userService.login(email, password);
       console.log(user);
       if (user) {
@@ -85,7 +116,6 @@ export default class UserController {
 //     admin: false,
 //   }
 // ];
-
 export const login = (req, res) => {
     const { username, password } = req.body;
     const index = users.findIndex(
@@ -118,6 +148,34 @@ export const login = (req, res) => {
       else res.send({ status: "Logout ERROR", body: err });
     });
   };
+
+  export const privateRoute = async (req, res) => {
+    const { first_name, last_name, email, role } = req.user;
+    res.json({
+      status: "success",
+      userData: {
+        first_name,
+        last_name,
+        email,
+        role,
+      },
+    });
+  };
+  
+  export const loginFront = async(req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      const user = await userDao.loginUser({email, password})
+      if(!user) {res.json({msg: 'Invalid credentials'})}
+      const access_token = generateToken(user)
+      res
+        .cookie('token', access_token, { httpOnly: true })
+        .json(access_token)
+    } catch (error) {
+      next(error)
+    }
+
+  }
   
   export const infoSession = (req, res) => {
     res.send({

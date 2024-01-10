@@ -6,6 +6,8 @@ import {
   githubResponse,
 } from "../controllers/user.controller.js";
 import { isAuth } from "../middlewares/isAuth.js";
+import { registerPassport, loginPassport, privateRoute, loginFront } from '../controllers/user.controller.js';
+import { verifyToken } from '../middlewares/verifyToken.js';
 
 import passport from "passport";
 
@@ -18,6 +20,14 @@ import {
   infoSession,
 } from "../controllers/user.controller.js";
 import { validateLogIn } from "../middlewares/middlewares.js";
+
+router.post('/registerPassport', registerPassport);
+
+router.post('/loginPassport', loginPassport);
+
+router.get('/private', verifyToken, privateRoute);
+
+router.post('/loginfront', loginFront);
 
 router.post("/register", passport.authenticate('register'),controller.register, registerResponse);
 

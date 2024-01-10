@@ -19,6 +19,7 @@ import "../src/daos/mongodb/conexion.js"
 import { MONGO_URL } from "../src/daos/mongodb/conexion.js";
 import "./passport/strategies.js";
 import passport from 'passport';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 // export const getAll = async (req, res, next) => {
 //   try {
@@ -101,10 +102,10 @@ app.use(passport.session());
 app.use(express.json());
 
 app.use(express.static(__dirname + '/public'));
-
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
+
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -117,6 +118,8 @@ app.use('/realtimeproducts', realtimeproducts);
 
 app.use("/users", userRouter);
 app.use('/views', viewsRouter)
+
+app.use(errorHandler);
 
 
 app.get('/', (req, res) => {

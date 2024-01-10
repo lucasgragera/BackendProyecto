@@ -38,6 +38,7 @@ export default class UserDao {
           } return false;
         } catch (error) {
           console.log(error);
+          throw new Error(error);
         }
       }
       async createUser(user) {
@@ -63,6 +64,7 @@ export default class UserDao {
           }
         }
 
+
     async getById(id) {
         try {
             const userExist = await UserModel.findById(id)
@@ -72,7 +74,7 @@ export default class UserDao {
             } return false
         } catch (error) {
             console.log(error)
-            // throw new Error(error)
+          throw new Error(error)
         }
     }
    
