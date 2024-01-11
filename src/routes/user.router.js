@@ -1,5 +1,6 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 import {
   registerResponse,
   loginResponse,
@@ -7,7 +8,6 @@ import {
 } from "../controllers/user.controller.js";
 import { isAuth } from "../middlewares/isAuth.js";
 import { registerPassport, loginPassport, privateRoute, loginFront } from '../controllers/user.controller.js';
-import { verifyToken } from '../middlewares/verifyToken.js';
 
 import passport from "passport";
 

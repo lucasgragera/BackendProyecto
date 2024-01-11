@@ -1,5 +1,7 @@
 import fs from 'fs';
 
+import FSDao from "./fs.dao.js";
+
 export default class ProductManager {
     constructor() {
         this.path = './product.json';

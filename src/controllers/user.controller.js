@@ -1,8 +1,54 @@
+import Controllers from "./class.controller.js";
 import { response } from "express";
+import { createResponse } from "../utils.js";
+import UserService from "../servicies/user.services.js";
+const userService = new UserService();
 import UserServices from "../servicies/user.services.js";
-const userService = new UserServices();
 import UserDao from "../daos/mongodb/user.dao.js";
 const userDao = new UserDao();
+
+export class UserControllerr extends Controllers {
+  constructor() {
+    super(userService);
+  }
+
+  register = async (req, res, next) => {
+    try {
+      const newUser = await userService.register(req.body);
+      if (!newUser) createResponse(res, 404, "User already exist");
+      else createResponse(res, 200, newUser);
+    } catch (error) {
+      next(error.message);
+    }
+  };
+
+  login = async (req, res, next) => {
+    try {
+      const token = await userService.login(req.body);
+      if (!token) createResponse(res, 404, "Error login");
+      else {
+        res.header("Authorization", token);
+        createResponse(res, 200, token);
+      }
+    } catch (error) {
+      next(error.message);
+    }
+  };
+
+  profile = (req, res, next) => {
+    try {
+      const { first_name, last_name, email, role } = req.user;
+      createResponse(res, 200, {
+        first_name,
+        last_name,
+        email,
+        role,
+      });
+    } catch (error) {
+      next(error.message);
+    }
+  };
+}
 
 export const registerResponse = (req, res, next) => {
   try {
@@ -183,4 +229,17 @@ export const login = (req, res) => {
       sessionId: req.sessionID,
       cookies: req.cookies,
     });
+  };
+ const profile = (req, res, next) => {
+    try {
+      const { first_name, last_name, email, role } = req.user;
+      createResponse(res, 200, {
+        first_name,
+        last_name,
+        email,
+        role,
+      });
+    } catch (error) {
+      next(error.message);
+    }
   };

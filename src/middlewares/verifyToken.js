@@ -1,7 +1,9 @@
+import jwt from "jsonwebtoken";
 import UserDao from "../daos/mongodb/user.dao.js";
 const userDao = new UserDao();
-import jwt from 'jsonwebtoken'
-import { PRIVATE_KEY } from "../jwt/auth.js";
+import 'dotenv/config'
+
+const SECRET_KEY = process.env.SECRET_KEY_JWT;
 
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.get("Authorization");
@@ -9,7 +11,7 @@ export const verifyToken = async (req, res, next) => {
   if (!authHeader) return res.status(401).json({ msg: "Unauthorized" });
   try {
     const token = authHeader.split(" ")[1];
-    const decode = jwt.verify(token, PRIVATE_KEY);
+    const decode = jwt.verify(token, SECRET_KEY);
     console.log("TOKEN DECODIFICADO");
     console.log(decode);
     const user = await userDao.getById(decode.userId);

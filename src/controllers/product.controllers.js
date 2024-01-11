@@ -1,8 +1,16 @@
 import * as service from "../servicies/product.servicies.js";
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
+import Controllers from "./class.controller.js";
+import ProductService from "../servicies/product.servicies.js";
 //import mongoosePaginate from 'mongoose-paginate';
-
+const productService = new ProductService();
 //ProductModel.plugin(mongoosePaginate);
+
+export default class ProductController extends Controllers {
+  constructor() {
+    super(productService);
+  }
+}
 
 export const addProductToCart = async (req, res, next) => {
   try {

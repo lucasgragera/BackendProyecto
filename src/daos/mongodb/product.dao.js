@@ -1,6 +1,12 @@
+import MongoDao from "../mongodb/mongo.dao.js";
 import { ProductModel } from "./models/product.model.js";
 import { CartModel } from "./models/cart.model.js";
 
+export class ProductMongoDao extends MongoDao {
+  constructor() {
+    super(ProductModel);
+  }
+}
 export default class ProductDaoMongoDB {
   
 

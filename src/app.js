@@ -16,42 +16,13 @@ import session from 'express-session';
 //import sessionFileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 import "../src/daos/mongodb/conexion.js"
-import { MONGO_URL } from "../src/daos/mongodb/conexion.js";
+import { connectionString } from "../src/daos/mongodb/conexion.js";
 import "./passport/strategies.js";
 import passport from 'passport';
 import { errorHandler } from './middlewares/errorHandler.js';
+import 'dotenv/config';
+import apiRoutes from './routes/routes.products.js'
 
-// export const getAll = async (req, res, next) => {
-//   try {
-//     const { page, limit, category, availability, sort } = req.query;
-//     const products = await ProductModel.paginate({ page, limit });
-//     res.status(200).json(products);
-//   } catch (error) {
-//     res.json({
-//       status: "error",
-//       message: error.message,
-//     });
-//   }
-// };
-
-// export const getAll = async (req, res, next) => {
-//   try {
-//     let { page, limit = 10, sort } = req.query;
-//     if (sort != "asc" || sort != "desc") {
-//       sort = "desc";
-//     }
-//     const products = await ProductModel.find()
-//       .sort({ price: sort })
-//       .limit(limit)
-//       .lean();
-//     res.status(200).json(products);
-//   } catch (error) {
-//     res.json({
-//       status: "error",
-//       message: error.message,
-//     });
-//   }
-// };
 const store = new ProductManager();
 
 const app = express();
@@ -74,7 +45,7 @@ const app = express();
 
 const mongoStoreOptions = {
   store: MongoStore.create({
-    mongoUrl: MONGO_URL,
+    mongoUrl: connectionString,
     ttl:120,
     crypto: {
       secret: '123'
@@ -91,6 +62,7 @@ app.use(express.urlencoded({extended:true}))
 //app.use(cookieParser);
 app.use(cookieParser());
 
+app.use('/api', apiRoutes)
 
 
 //app.use(session(fileStoreOptions));
@@ -126,7 +98,7 @@ app.get('/', (req, res) => {
   res.render('websocket')
 })
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const httpServer = app.listen(PORT, () => console.log(`Server ok on port ${PORT}`));
 

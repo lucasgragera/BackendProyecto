@@ -10,6 +10,10 @@ import bcryptjs from 'bcryptjs'
 
 //register
 export const createHash = (password) =>  bcryptjs.hashSync(password, genSaltSync(10));
+
+export const createResponse = (res, statusCode, data) => {
+    return res.status(statusCode).json({ data });
+  };
     
 
 //login

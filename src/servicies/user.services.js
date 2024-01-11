@@ -1,10 +1,29 @@
+import Services from "./class.services.js";
+import UserDao from "../daos/mongodb/user.dao.js";
 import { UserModel } from "../daos/mongodb/models/user.model.js";
 import { createHash, isValidPassword } from '../utils.js';
+import jwt from "jsonwebtoken";
+const userDao = new UserDao();
 
-export default class UserServices {
-  async findByEmail(email) {
-    return await UserModel.findOne({ email });
-  }
+const SECRET_KEY_JWT = process.env.SECRET_KEY_JWT;
+
+// export default class UserServices {
+//   constructor() {
+//     super(userDao);
+//   async findByEmail(email) {
+//     return await UserModel.findOne({ email });
+//   }
+// }
+export default class UserService extends Services {
+    constructor() {
+      super(userDao);
+    }
+    #generateToken(user) {
+      const payload = {
+        userId: user._id,
+      };
+      return jwt.sign(payload, SECRET_KEY_JWT, { expiresIn: "10m" });
+    }
 
   async register(user) {
     try {
@@ -34,7 +53,7 @@ export default class UserServices {
         const isValid = isValidPassword(password, userExist);
         console.log('isValid__', isValid);
         if (!isValid) return false;
-        else return userExist;
+        else return this.#generateToken(userExist);
         // !isValid ? false : userExist
       } return false;
     } catch (error) {

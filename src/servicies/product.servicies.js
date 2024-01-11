@@ -1,9 +1,16 @@
+import Services from "./class.services.js";
 import ProductDaoMongoDB from "../daos/mongodb/product.dao.js";
 import ProductManager from "../daos/filesystem/product.dao.js";
 
 //Comentar o descomentar para cambio de persistencia MongoDB a Firesystem, viceversa.
 //const prodDao =new ProductDaoFS();
 const prodDao = new ProductDaoMongoDB();
+
+export default class ProductService extends Services {
+  constructor() {
+    super(prodDao);
+  }
+}
 
 export const addProductToCart = async (cartId, productId) => {
   try {
