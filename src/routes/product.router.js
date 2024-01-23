@@ -5,7 +5,7 @@ import socketServer from "../app.js";
 import  ProductManager  from "../daos/filesystem/product.dao.js";
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
 const productManager = new ProductManager("../product.json");
-
+const { isAdmin, isUser } = require('../middlewares/currentAuth.js');
 
 router.post('/add/:idCart/:idProduct', addProductToCart)
 
@@ -26,11 +26,11 @@ router.get("/", getAll);
 
 router.get("/:id", getById);
 
-router.post("/", create);
+router.post("/", create,isAdmin, isUser);
 
-router.put("/:id", update);
+router.put("/:id", update, isAdmin, isUser);
 
-router.delete("/:id", remove);
+router.delete("/:id", remove, isAdmin, isUser);
 
 
 

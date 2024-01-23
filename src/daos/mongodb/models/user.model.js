@@ -31,7 +31,12 @@ const userSchema = new Schema({
   isGithub:{
     type: Boolean,
     default: false
+  },
+  isGoogle: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
-
-export const UserModel = model("users", userSchema);
+const userColl = 'users'
+export const UserModel = model(userColl, userSchema);

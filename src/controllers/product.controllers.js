@@ -12,6 +12,32 @@ export default class ProductController extends Controllers {
   }
 }
 
+getProdById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const prod = await this.service.getProdById(id);
+    if (!prod)
+      createResponse(res, 404, { method: "create", error: "getById failed" });
+    else createResponse(res, 200, prod);
+  } catch (error) {
+    next(error.message);
+  }
+};
+
+createProd = async (req, res, next) => {
+  try {
+    const newItem = await this.service.createProd(req.body);
+    if (!newItem)
+      createResponse(res, 404, {
+        method: "create",
+        error: "Validation error!",
+      });
+    else createResponse(res, 200, newItem);
+  } catch (error) {
+    next(error.message);
+  }
+};
+
 export const addProductToCart = async (req, res, next) => {
   try {
     const { idCart } = req.params;
