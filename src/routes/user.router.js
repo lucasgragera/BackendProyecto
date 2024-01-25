@@ -45,6 +45,18 @@ router.get(
   passport.authenticate("github", { scope: ["user:email"] }),
   githubResponse
 );
+router.get("/private", verifyToken, (req, res) => {
+  const { first_name, last_name, email, role } = req.user;
+  res.json({
+    status: "success",
+    userData: {
+      first_name,
+      last_name,
+      email,
+      role,
+    },
+  });
+});
 
 //router.post("/login", login);
 

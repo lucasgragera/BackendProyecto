@@ -8,6 +8,7 @@ import cartManager from './routes/cart.router.js';
 import realtimeproducts from './routes/realtimeproducts.router.js'
 import ProductManager from './daos/filesystem/product.dao.js';
 import * as service from "./servicies/chat.services.js";
+import morgan from 'morgan';
 import userRouter from "./routes/user.router.js";
 import viewsRouter from './routes/views.router.js'
 import "./daos/mongodb/conexion.js"
@@ -22,6 +23,7 @@ import passport from 'passport';
 import { errorHandler } from './middlewares/errorHandler.js';
 import 'dotenv/config';
 import apiRoutes from './routes/routes.products.js'
+import ticketRouter from './routes/ticket.router.js';
 
 const store = new ProductManager();
 
@@ -61,7 +63,7 @@ const mongoStoreOptions = {
 app.use(express.urlencoded({extended:true}))
 //app.use(cookieParser);
 app.use(cookieParser());
-
+app.use(morgan('dev'));
 app.use('/api', apiRoutes)
 
 
@@ -90,6 +92,7 @@ app.use('/realtimeproducts', realtimeproducts);
 
 app.use("/users", userRouter);
 app.use('/views', viewsRouter)
+app.use('/ticket', ticketRouter);
 
 app.use(errorHandler);
 

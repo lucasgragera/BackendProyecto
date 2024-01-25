@@ -14,6 +14,25 @@ const SECRET_KEY_JWT = process.env.SECRET_KEY_JWT;
 //     return await UserModel.findOne({ email });
 //   }
 // }
+export const getByIdUser = async (id) => {
+  try {
+    const user = await userDao.getById(id);
+    if (!user) return false;
+    else return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getByEmailUser = async (email) => {
+  try {
+    const user = await userDao.getByEmail(email);
+    if (!user) return false;
+    else return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export default class UserService extends Services {
     constructor() {
       super(userDao);

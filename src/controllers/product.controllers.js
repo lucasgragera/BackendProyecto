@@ -12,7 +12,7 @@ export default class ProductController extends Controllers {
   }
 }
 
-getProdById = async (req, res, next) => {
+export const getProdById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const prod = await this.service.getProdById(id);
@@ -24,7 +24,7 @@ getProdById = async (req, res, next) => {
   }
 };
 
-createProd = async (req, res, next) => {
+export const createProd = async (req, res, next) => {
   try {
     const newItem = await this.service.createProd(req.body);
     if (!newItem)
@@ -69,25 +69,6 @@ export const getQuery = async (req, res, next) => {
     next(error.message);
   }
 };
-
-// export const getAll = async (req, res, next) => {
-//   try {
-//     const { page, limit } = req.query;
-//     const response = await service.getAll(page, limit);
-    
-//     res.status(200).json(response)({
-//       status: 'success',
-//       payload: response.docs,
-//     })
-         
-    
-//   } catch (error) {
-//     res.json({
-//       status: 'error',
-//       message: error.message,
-//     });
-//   }
-// };
  export const getAll = async (req, res, next) => {
    try {
      let { page=1, limit = 10, sort } = req.query;

@@ -56,4 +56,48 @@ export const addProduct = async (cid,id)=>{
     } catch (error) {
         console.log(error)
     }
+    
+}
+export const removeProdToCart = async (cid, id) => {
+  try {
+    const existCart = await getById(cid);
+    console.log("existCart-->", existCart);
+    if (!existCart) return false;
+
+    const existProd = existCart.products.find((p)=>p.product._id.toString() === id.toString());
+    console.log("existProd-->", existProd);
+    if (!existProd) return false;
+
+    return await cartDao.removeProdToCart(existCart, existProd);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateProdQuantityToCart = async (cid, id, quantity) => {
+  try {
+    const existCart = await getById(cid);
+    console.log("existCart-->", existCart);
+    if (!existCart) return false;
+
+    const existProd = existCart.products.find((p)=>p.product._id.toString() === id.toString());
+    console.log("existProd-->", existProd);
+    if (!existProd) return false;
+
+    return await cartDao.updateProdQuantityToCart(existCart, existProd, quantity);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const clearCart = async (cid) => {
+  try {
+    const existCart = await getById(cid);
+    console.log("existCart-->", existCart);
+    if (!existCart) return false;
+
+    return await cartDao.clearCart(existCart);
+  } catch (error) {
+    console.log(error);
+  }
 }

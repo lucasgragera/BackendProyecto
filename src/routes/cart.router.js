@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { CartManager } from "../CartManager.js";
 import ProductManager from "../daos/filesystem/product.dao.js"; 
+import * as controller from "../controllers/cart.controller.js";
 
 const router = Router();
 const cartManager = new CartManager();
@@ -154,6 +155,10 @@ router.delete('/:cid', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+router.post("/:idCart/products/:idProd", controller.addProdToCart);
 
+router.delete("/:idCart/products/:idProd", controller.removeProdToCart);
+
+router.put("/:idCart/products/:idProd", controller.updateProdQuantityToCart);
 
 export default router;
