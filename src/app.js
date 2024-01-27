@@ -60,30 +60,32 @@ const mongoStoreOptions = {
     maxAge: 120000 //milisegundos, mismo o mayor que la session
   }
 }
+
+/*
+MIDDLEWARES GLOBALES
+*/
 app.use(express.urlencoded({extended:true}))
-//app.use(cookieParser);
+app.use(express.json());
 app.use(cookieParser());
-app.use(morgan('dev'));
-app.use('/api', apiRoutes)
-
-
 //app.use(session(fileStoreOptions));
 app.use(session(mongoStoreOptions));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.json());
 
 app.use(express.static(__dirname + '/public'));
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
+
+app.use(morgan('dev'));
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+app.use('/api', apiRoutes)
 app.use('/api/products', productRouter); 
 app.use('/api/carts', cartManager);
 app.use("/chat", chatRouter);
@@ -95,7 +97,6 @@ app.use('/views', viewsRouter)
 app.use('/ticket', ticketRouter);
 
 app.use(errorHandler);
-
 
 app.get('/', (req, res) => {
   res.render('websocket')
@@ -125,8 +126,5 @@ socketServer.on("connection", async (socket) => {
     socket.broadcast.emit("chat:typing", data);
   });
 });
-
-
-
 
 export default socketServer;
