@@ -3,3 +3,5 @@ export const errorHandler = (error, req, res, next) => {
     const status = error.statusCode || 400;
     res.status(status).send(error.message);
   };
+
+  

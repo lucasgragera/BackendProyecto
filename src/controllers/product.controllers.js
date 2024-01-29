@@ -5,6 +5,7 @@ import ProductService from "../servicies/product.servicies.js";
 //import mongoosePaginate from 'mongoose-paginate';
 const productService = new ProductService();
 //ProductModel.plugin(mongoosePaginate);
+import { errorsDictionaty } from "../utils/http.response.js";
 
 export default class ProductController extends Controllers {
   constructor() {
@@ -45,7 +46,7 @@ export const addProductToCart = async (req, res, next) => {
     const newProduct = await service.addProductToCart(idCart, idProduct);
     res.json(newProduct);
   } catch (error) {
-    next(error);
+    next(errorsDictionaty.ERROR_ADD_TO_CART);
   }
 }
 
@@ -113,7 +114,7 @@ export const create = async (req, res, next) => {
     if (!response) res.status(404).json({ msg: "Error create product!" });
     res.status(200).json(newProd);
   } catch (error) {
-    next(error.message);
+    next(errorsDictionaty.ERROR_CREATE_PRODUCTS);
   }
 };
 
@@ -138,3 +139,21 @@ export const remove = async (req, res, next) => {
     next(error.message);
   }
 };
+export const createMockingProducts = async (req, res) => {
+  try {
+    const { cant } = req.query;
+    const response = await userService.createMockingProducts(cant);
+    res.status(200).json({ products: response });
+  } catch (error) {
+    console.log(errorsDictionaty.ERROR_CREATE_PRODUCTS);
+  }
+};
+
+export const getMockingProducts = async (req, res) => {
+  try {
+    const response = await userService.mockingProducts();
+  res.json(response);
+  } catch (error) {
+    console.log(errorsDictionaty.ERROR_GET_PRODUCTS);
+  }
+}

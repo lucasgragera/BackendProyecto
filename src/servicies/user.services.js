@@ -1,7 +1,7 @@
 import Services from "./class.services.js";
 import UserDao from "../daos/mongodb/user.dao.js";
 import { UserModel } from "../daos/mongodb/models/user.model.js";
-import { createHash, isValidPassword } from '../utils.js';
+import { createHash, isValidPassword } from '../utils/utils.js';
 import jwt from "jsonwebtoken";
 const userDao = new UserDao();
 

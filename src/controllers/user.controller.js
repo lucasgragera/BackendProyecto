@@ -1,6 +1,6 @@
 import Controllers from "./class.controller.js";
 import { response } from "express";
-import { createResponse } from "../utils.js";
+import { createResponse } from "../utils/utils.js";
 import UserService from "../servicies/user.services.js";
 const userService = new UserService();
 import UserServices from "../servicies/user.services.js";
@@ -243,3 +243,4 @@ export const login = (req, res) => {
       next(error.message);
     }
   };
+  

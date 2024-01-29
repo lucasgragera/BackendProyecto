@@ -1,5 +1,5 @@
 import express from 'express';
-import { __dirname } from './utils.js';
+import { __dirname } from './utils/utils.js';
 import chatRouter from "./routes/chat.router.js";
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';

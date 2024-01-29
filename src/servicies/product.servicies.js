@@ -91,3 +91,24 @@ export const remove = async (id) => {
     console.log(error);
   }
 };
+export const createMockingProducts = async (cant = 100) =>{
+  try {
+    const productsArray = [];
+    for (let i = 0; i < cant; i++) {
+      const products = generateProducts();
+      productsArray.push(products);
+    }
+    const products = await productsModel.create(productsArray);
+    return products;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMockingProducts = async () => {
+  try {
+    return await UserModel.find({});
+  } catch (error) {
+    console.log(error);
+  }
+};
