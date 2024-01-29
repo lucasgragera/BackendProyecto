@@ -35,8 +35,6 @@ router.post("/login",passport.authenticate('login'), controller.login, loginResp
 
 router.get("/private", isAuth, (req, res) => res.send("route private"));
 
-router.get("/mockingproducts", UserController.getMockingProducts);
-
 router.get(
   "/register-github",
   passport.authenticate("github", { scope: ["user:email"] })

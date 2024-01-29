@@ -33,7 +33,7 @@ router.put("/:id", controller.update, isAdmin, isUser);
 
 router.delete("/:id", controller.remove, isAdmin, isUser);
 
-
+router.get("/mockingproducts", UserController.getMockingProducts);
 
 
 export default router;
