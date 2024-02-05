@@ -1,7 +1,14 @@
+import log4js from 'log4js';
 import MongoDao from "../mongodb/mongo.dao.js";
 import { ProductModel } from "./models/product.model.js";
 import { CartModel } from "./models/cart.model.js";
 
+log4js.configure({
+  appenders: { stdout: { type: 'stdout' } },
+  categories: { default: { appenders: ['stdout'], level: 'debug' } }
+});
+
+const logger = log4js.getLogger(); // Obtener el logger
 export class ProductMongoDao extends MongoDao {
   constructor() {
     super(ProductModel);
@@ -17,7 +24,7 @@ export default class ProductDaoMongoDB {
       cart.save();
       return cart;
     } catch (error) {
-      console.log('Error en la operación addProductToCart:', error);
+      logger.error('Error en la operación addProductToCart:', error);
     }
   }
   async getQuery(query) {
@@ -32,7 +39,7 @@ export default class ProductDaoMongoDB {
       const result = await ProductModel.aggregate(aggregationPipeline);
       return result;
     } catch (error) {
-      console.error('Error en la operación de búsqueda:', error);
+      logger.error('Error en la operación de búsqueda:', error);
       throw error; 
     }
   }
@@ -52,7 +59,7 @@ export default class ProductDaoMongoDB {
       const result = await ProductModel.aggregate(aggregationPipeline);
       return result;
     } catch (error) {
-      console.error('Error en la operación de agregación:', error);
+      logger.error('Error en la operación de agregación:', error);
       throw error; 
     }
   }
@@ -62,7 +69,7 @@ export default class ProductDaoMongoDB {
       const response = await ProductModel.paginate({},{page, limit});
       return response;
     } catch (error) {
-      console.log('Error en la operación getAll:', error);
+      logger.error('Error en la operación getAll:', error);
       throw error;
     }
   }
@@ -72,7 +79,7 @@ export default class ProductDaoMongoDB {
       const response = await ProductModel.findById(id).lean();
       return response;
     } catch (error) {
-      console.log('Error en la operación getById:', error);
+      logger.error('Error en la operación getById:', error);
     }
   }
 
@@ -81,7 +88,7 @@ export default class ProductDaoMongoDB {
       const response = await ProductModel.create(obj);
       return response;
     } catch (error) {
-      console.log('Error en la operación create:', error);
+      logger.error('Error en la operación create:', error);
       throw error;
     }
   }
@@ -93,7 +100,7 @@ export default class ProductDaoMongoDB {
       });
       return response;
     } catch (error) {
-      console.log('Error en la operación update:', error);
+      logger.error('Error en la operación update:', error);
       throw error;
     }
   }
@@ -103,7 +110,7 @@ export default class ProductDaoMongoDB {
       const response = await ProductModel.findByIdAndDelete(id);
       return response;
     } catch (error) {
-      console.log('Error en la operación delete:', error);
+      logger.error('Error en la operación delete:', error);
       throw error;
     }
   }

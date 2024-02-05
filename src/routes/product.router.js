@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {getAll, getById, create, update, remove, sortAggregation, getQuery, addProductToCart}from "../controllers/product.controllers.js";
 const router = Router();
+import UserController from "../controllers/user.controller.js";
 import socketServer from "../app.js";
 import  ProductManager  from "../daos/filesystem/product.dao.js";
 import { ProductModel } from "../daos/mongodb/models/product.model.js";

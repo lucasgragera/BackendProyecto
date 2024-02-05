@@ -21,6 +21,7 @@
     "express-session": "^1.17.3",
     "faker": "^6.6.6",
     "jsonwebtoken": "^9.0.2",
+    "log4js": "^6.9.1",
     "mongoose": "^8.0.2",
     "mongoose-paginate": "^5.0.3",
     "mongoose-paginate-v2": "^1.7.4",
