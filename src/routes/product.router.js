@@ -8,6 +8,7 @@ import { ProductModel } from "../daos/mongodb/models/product.model.js";
 const productManager = new ProductManager("../product.json");
 const { isAdmin, isUser } = '../middlewares/currentAuth.js';
 import * as controller from "../controllers/product.controllers.js";
+import {logger} from "../daos/mongodb/product.dao.js";
 
 router.post('/add/:idCart/:idProduct', addProductToCart)
 
@@ -36,5 +37,9 @@ router.delete("/:id", controller.remove, isAdmin, isUser);
 
 router.get("/mockingproducts", UserController.getMockingProducts);
 
+router.get('/loggerTest', (req, res) => {
+    logger.info('Endpoint /loggerTest fue accedido');
+    res.send('Respuesta del endpoint /loggerTest');
+  });
 
 export default router;
