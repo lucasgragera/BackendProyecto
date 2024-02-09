@@ -2,6 +2,7 @@ import log4js from 'log4js';
 import MongoDao from "../mongodb/mongo.dao.js";
 import { ProductModel } from "./models/product.model.js";
 import { CartModel } from "./models/cart.model.js";
+import { paginate } from 'mongoose-paginate-v2';
 
 
 log4js.configure({

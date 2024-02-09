@@ -24,6 +24,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import 'dotenv/config';
 import apiRoutes from './routes/routes.products.js'
 import ticketRouter from './routes/ticket.router.js';
+import { paginate } from 'mongoose-paginate-v2';
 
 const store = new ProductManager();
 
@@ -86,7 +87,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/api', apiRoutes)
-app.use('/api/products', productRouter); 
+app.use('/api/products', productRouter, paginate); 
 app.use('/api/carts', cartManager);
 app.use("/chat", chatRouter);
 app.use("/", realtimeproducts);
