@@ -1,3 +1,7 @@
+const roles = {
+  ADMIN: 'admin',
+  USER: 'user'
+};
 function isAdmin(req, res, next) {
     if (req.user && req.user.role === roles.ADMIN) {
       next(); // Usuario es un administrador, permitir acceso

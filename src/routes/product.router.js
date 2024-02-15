@@ -6,7 +6,8 @@ import socketServer from "../app.js";
 import  ProductManager  from "../daos/filesystem/product.dao.js";
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
 const productManager = new ProductManager("../product.json");
-const { isAdmin, isUser } = '../middlewares/currentAuth.js';
+import { isAdmin, isUser } from '../middlewares/currentAuth.cjs';
+//const { isAdmin, isUser } = '../middlewares/currentAuth.js';
 import * as controller from "../controllers/product.controllers.js";
 import {logger} from "../daos/mongodb/product.dao.js";
 
