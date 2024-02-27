@@ -6,7 +6,7 @@ import socketServer from "../app.js";
 import  ProductManager  from "../daos/filesystem/product.dao.js";
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
 const productManager = new ProductManager("../product.json");
-import { isAdmin, isUser } from '../middlewares/currentAuth.cjs';
+import { isAdmin, isUser } from '../middlewares/currentAuth.js';
 //const { isAdmin, isUser } = '../middlewares/currentAuth.js';
 import * as controller from "../controllers/product.controllers.js";
 import {logger} from "../daos/mongodb/product.dao.js";
@@ -30,11 +30,11 @@ router.get("/", controller.getAll);
 
 router.get("/:id", controller.getById);
 
-router.post("/", controller.create,isAdmin, isUser);
+router.post("/", isAdmin, isUser, controller.create);
 
-router.put("/:id", controller.update, isAdmin, isUser);
+router.put("/:id", isAdmin, isUser, controller.update);
 
-router.delete("/:id", controller.remove, isAdmin, isUser);
+router.delete("/:id", isAdmin, isUser, controller.remove);
 
 router.get("/mockingproducts", UserController.getMockingProducts);
 

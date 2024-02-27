@@ -1,0 +1,62 @@
+components:
+  parameters:
+    schemas:
+      login: 
+        type: object
+        required:   
+          - email
+          - password
+        properties:  
+          email:
+            type: string
+            description: Email del usuario 
+          password:
+            type: string
+            description: Password del usuario
+        example:
+          email: juan@mail.com
+          password: abc123def456
+      Products:
+        type: object
+        properties:
+          List:
+            type: array
+            items:
+              $ref: '#/components/schema/Products/Details'
+          Details:
+            type: object
+            properties:
+              title: string
+          UpdateDetails:
+            type: object
+            properties:
+              title: string
+          Delete:
+            type: object
+            properties:
+              id: integer
+
+      Cart:
+        type: object
+        properties:
+          Content:
+            type: array
+            items:
+              $ref: '#/components/schema/Products/Details'
+          AddProduct:
+            type: object
+            properties:
+              id: integer
+          UpdateProductQuantity:
+            type: object
+            properties:
+              stock: integer
+          DeleteProduct:
+            type: object
+            properties:
+              id: integer
+  securitySchemes:
+    BearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

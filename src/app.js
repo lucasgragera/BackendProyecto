@@ -25,10 +25,14 @@ import 'dotenv/config';
 import apiRoutes from './routes/routes.products.js'
 import ticketRouter from './routes/ticket.router.js';
 import { paginate } from 'mongoose-paginate-v2';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { info } from './docs/info.js';
 
 const store = new ProductManager();
-
 const app = express();
+
+const specs = swaggerJSDoc(info);
 
 //const FileStore = sessionFileStore(session)
 
@@ -65,6 +69,7 @@ const mongoStoreOptions = {
 /*
 MIDDLEWARES GLOBALES
 */
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());
 app.use(cookieParser());

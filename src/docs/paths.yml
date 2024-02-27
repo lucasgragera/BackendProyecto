@@ -1,0 +1,176 @@
+paths:
+  /users/login:
+    post:
+      tags: 
+      - Products
+      summary: Login de usuario  
+      requestBody:  
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/parameters/schemas/login'
+        required: true
+      responses:  
+        200:
+          description: Login success
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/Users/User'
+  /users/profile:
+    get:
+      tags:
+      - Future Sessions
+      summary: Datos del usuario autenticado
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Users/User/profile'
+      security:
+        - BearerAuth: []                  
+
+  /products:
+    get:
+      tags:
+      - Products
+      summary: Obtener lista de productos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/List'
+
+  /products/{productId}:
+    get:
+      tags:
+      - Products
+      summary: Obtener detalles de un producto
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Detalles del producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/Details'
+    put:
+      tags:
+      - Products
+      summary: Actualizar detalles de un producto
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/Products/UpdateDetails'
+        required: true
+      responses:
+        200:
+          description: Detalles del producto actualizados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/Details'
+
+    delete:
+      tags:
+      - Products
+      summary: Eliminar un producto
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Producto eliminado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/Details'
+
+  /cart:
+    get:
+      tags:
+      - Cart
+      summary: Obtener contenido del carrito
+      responses:
+        200:
+          description: Contenido del carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Cart/Content'
+
+    post:
+      tags:
+      - Cart
+      summary: Agregar un producto al carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/Cart/AddProduct'
+        required: true
+      responses:
+        200:
+          description: Producto agregado al carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Cart/Content'
+    put:
+      tags:
+      - Cart
+      summary: Actualizar cantidad de un producto en el carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/Cart/UpdateProductQuantity'
+        required: true
+      responses:
+        200:
+          description: Cantidad del producto en el carrito actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Cart/Content'
+
+    delete:
+      tags:
+      - Cart
+      summary: Eliminar un producto del carrito
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          description: ID del producto a eliminar del carrito
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Producto eliminado del carrito con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Cart/Content'                
